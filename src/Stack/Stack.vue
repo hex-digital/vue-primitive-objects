@@ -35,25 +35,25 @@ export default {
     },
   },
   computed: {
-    configIdentifier() {
-      return `stack-${this.splitAfter}`;
-    },
     stackClasses() {
       return {
         'o-stack': true,
         'o-stack--recursive': this.recursive,
       };
     },
+    configVariables() {
+      return `${this.splitAfter}`;
+    },
   },
   methods: {
-    configStyles() {
+    configStyles(selector) {
       if (this.splitAfter === 0) return null;
 
       return `
-        [data-identifier="${this.configIdentifier}"]:only-child {
+        ${selector}:only-child {
           height: 100%;
         }
-        [data-identifier="${this.configIdentifier}"] > :nth-child(${this.splitAfter}) {
+        ${selector} > :nth-child(${this.splitAfter}) {
           margin-bottom: auto;
         }
       `;
