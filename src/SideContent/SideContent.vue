@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { validateComponent } from '../mixins/validateComponent';
+
 export default {
   name: 'SideContent',
   props: {
@@ -29,9 +31,8 @@ export default {
   },
   methods: {
     validateComponent() {
-      // @todo Check that the slot contains one element, and that it has exactly two elements as direct children
-      const slotIsValid = true;
-      const contentMinIsPercentage = this.contentMin.indexOf('%') !== -1;
+      const slotIsValid = true; // @todo Check that the slot contains one element, and that it has exactly two elements as direct children
+      const contentMinIsPercentage = this.contentMin.includes('%');
 
       if (!slotIsValid) {
         console.error(
@@ -45,12 +46,6 @@ export default {
       }
     },
   },
-  beforeMount() {
-    this.validateComponent();
-  },
-  beforeUpdate() {
-    this.validateComponent();
-  },
 };
 </script>
 
@@ -58,24 +53,24 @@ export default {
 $space = 1.5rem; // @todo This should come from the modular sizings
 
 .o-side-content > * {
-    display: flex;
-    flex-wrap: wrap;
-    margin: calc(#{$space} / 2 * -1); // @todo This needs to change so it can take a dynamic space
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(#{$space} / 2 * -1); // @todo This needs to change so it can take a dynamic space
 }
 
 .o-side-content > * > * {
-    flex-grow: 1;
-    margin: calc(#{$space} / 2); // @todo This needs to change so it can take a dynamic space
+  flex-grow: 1;
+  margin: calc(#{$space} / 2); // @todo This needs to change so it can take a dynamic space
 }
 
 .o-side-content--no-stretch > * {
-    align-items: flex-start;
+  align-items: flex-start;
 }
 
 .o-side-content--left > * > :first-child,
 .o-side-content--right > * > :last-child {
-    flex-basis: 0;
-    flex-grow: 999;
-    min-width: calc(50% - #{$space}); // @todo This needs to change so it can take a dynamic min-width
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - #{$space}); // @todo This needs to change so it can take a dynamic min-width
 }
 </style>

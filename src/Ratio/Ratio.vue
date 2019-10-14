@@ -5,8 +5,11 @@
 </template>
 
 <script>
+import { validateComponent } from '../mixins/validateComponent';
+
 export default {
   name: 'Ratio',
+  mixins: [validateComponent],
   props: {
     ratio: { type: String, required: true },
   },
@@ -23,25 +26,18 @@ export default {
   },
   methods: {
     validateComponent() {
-      // @todo Check that the slot contains just one element
-      const slotHasOneChild = true;
-      const ratioIsRatio = this.ratio.indexOf(':') !== -1;
+      const slotHasOneChild = true; // @todo Check that the slot contains just one element
+      const ratioIsRatio = this.ratio.includes(':');
 
       if (!slotHasOneChild) {
         console.error('<Ratio> elements should have just one child element');
       }
       if (!ratioIsRatio) {
         console.error(
-          'The value for each <Ratio> `ratio` property should be a ratio, x:y, otherwise it will not work. Current value is ${this.ratio}'
+          `The value for each <Ratio> 'ratio' property should be a ratio, x:y, otherwise it will not work. Current value is ${this.ratio}`
         );
       }
     },
-  },
-  beforeMount() {
-    this.validateComponent();
-  },
-  beforeUpdate() {
-    this.validateComponent();
   },
 };
 </script>
