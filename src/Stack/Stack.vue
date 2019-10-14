@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { stylesFromComponentConfig } from '../mixins/stylesFromComponentConfig';
+
 /**
  * Flow elements require space to physically and conceptually separate them from the elements that come before and
  * after them. This flow space should exist solely between children elements in a container, and not between an element
@@ -22,6 +24,7 @@
  */
 export default {
   name: 'Stack',
+  mixins: [stylesFromComponentConfig],
   props: {
     recursive: { type: Boolean, default: false },
     space: { type: String, default: '1.5rem' }, // @todo Prob a vertical rhythm value here
@@ -42,21 +45,19 @@ export default {
       };
     },
   },
-  beforeMount() {
-    if (this.splitAfter === 0) return;
-    if (document.getElementById(this.configIdentifier)) return;
-    document.head.innerHTML += `
-      <style id="${this.configIdentifier}">
-        ${`[data-identifier="${this.configIdentifier}"]:only-child {
-            height: 100%;
-          }
-          [data-identifier="${this.configIdentifier}"] > :nth-child(${this.splitAfter}) {
-            margin-bottom: auto;
-          }`}
-      </style>
-      `
-      .replace(/\s\s+/g, ' ')
-      .trim();
+  methods: {
+    configStyles() {
+      if (this.splitAfter === 0) return null;
+
+      return `
+        [data-identifier="${this.configIdentifier}"]:only-child {
+          height: 100%;
+        }
+        [data-identifier="${this.configIdentifier}"] > :nth-child(${this.splitAfter}) {
+          margin-bottom: auto;
+        }
+      `;
+    },
   },
 };
 </script>
@@ -67,6 +68,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
 }
+
 .o-stack > * + *,
 .o-stack--recursive * + * {
   margin-top: 1.5rem; // @todo This value should come from the modular spacing scale
