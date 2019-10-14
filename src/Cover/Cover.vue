@@ -1,24 +1,24 @@
 <template>
-    <div :class="coverClasses">
-        <slot name="header" />
-        <slot />
-        <slot name="footer" />
-    </div>
+  <div :class="coverClasses">
+    <slot name="header" />
+    <slot />
+    <slot name="footer" />
+  </div>
 </template>
 
 <script>
 // Consider using a render function and adding classes dynamically instead of the template
 export default {
-    name: 'Cover',
-    computed: {
-        coverClasses() {
-            return {
-                'o-cover': true,
-                'o-cover--header': this.$slots.header,
-                'o-cover--footer': this.$slots.footer,
-            };
-        },
+  name: 'Cover',
+  computed: {
+    coverClasses() {
+      return {
+        'o-cover': true,
+        'o-cover--header': this.$slots.header,
+        'o-cover--footer': this.$slots.footer,
+      };
     },
+  },
 };
 </script>
 

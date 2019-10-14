@@ -18,12 +18,12 @@ export default {
 $border-thin: 1px; // @todo This should be part of a range of global border sizings instead of simply added here
 
 .o-box {
-    background-color: inherit;
-    display: block;
-    padding: 1.5rem; // @todo This should be a modular sizing
-    border-width: $border-thin;
-    /* ↓ For high contrast mode */
-    outline: $border-thin solid transparent;
-    outline-offset: calc(#{$border-thin} * -1);
+  background-color: inherit;
+  display: block;
+  padding: 1.5rem; // @todo This should be a modular sizing
+  border-width: $border-thin;
+  /* ↓ For high contrast mode */
+  outline: $border-thin solid transparent;
+  outline-offset: calc(#{$border-thin} * -1);
 }
 </style>

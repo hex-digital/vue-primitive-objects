@@ -1,48 +1,56 @@
 <template>
-    <div :class="sideContentClasses">
-        <slot />
-    </div>
+  <div :class="sideContentClasses">
+    <slot />
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'SideContent',
-    props: {
-        side: { type: String, default: 'left' },
-        sideWidth: { type: String, default: null }, // @todo This needs to be implemeneted
-        contentMin: { type: String, default: '50%' }, // @todo This needs to be implemeneted
-        space: { type: String, default: '1.5rem' }, // @todo This needs to be implemented
-        noStretch: { type: Boolean, default: false },
+  name: 'SideContent',
+  props: {
+    side: { type: String, default: 'left' },
+    sideWidth: { type: String, default: null }, // @todo This needs to be implemeneted
+    contentMin: { type: String, default: '50%' }, // @todo This needs to be implemeneted
+    space: { type: String, default: '1.5rem' }, // @todo This needs to be implemented
+    noStretch: { type: Boolean, default: false },
+  },
+  computed: {
+    sideContentClasses() {
+      return {
+        'o-side-content': true,
+        'o-side-content--no-stretch': this.noStretch,
+        'o-side-content--left': this.side === 'left',
+        'o-side-content--right': this.side !== 'left',
+      };
     },
-    computed: {
-        sideContentClasses() {
-            return {
-                'o-side-content': true,
-                'o-side-content--no-stretch': this.noStretch,
-                'o-side-content--left': this.side === 'left',
-                'o-side-content--right': this.side !== 'left',
-            };
-        },
-        adjustedSpace() {
-            return this.space === '0' ? '0px' : this.space;
-        },
+    adjustedSpace() {
+      return this.space === '0' ? '0px' : this.space;
     },
-    methods: {
-        validateComponent() {
-            // @todo Check that the slot contains one element, and that it has exactly two elements as direct children
-            const slotIsValid = true;
-            const contentMinIsPercentage = this.contentMin.indexOf('%') !== -1;
+  },
+  methods: {
+    validateComponent() {
+      // @todo Check that the slot contains one element, and that it has exactly two elements as direct children
+      const slotIsValid = true;
+      const contentMinIsPercentage = this.contentMin.indexOf('%') !== -1;
 
-            if (!slotIsValid) {
-                console.error('<SideContent> elements should have exactly one child element containing exactly two child elements of its own');
-            }
-            if (!contentMinIsPercentage) {
-                console.warn('The value for each <SideContent> `contentMin` property should be a percentage. Otherwise overflow is likely to occur');
-            }
-        },
+      if (!slotIsValid) {
+        console.error(
+          '<SideContent> elements should have exactly one child element containing exactly two child elements of its own'
+        );
+      }
+      if (!contentMinIsPercentage) {
+        console.warn(
+          'The value for each <SideContent> `contentMin` property should be a percentage. Otherwise overflow is likely to occur'
+        );
+      }
     },
-    beforeMount() { this.validateComponent() },
-    beforeUpdate() { this.validateComponent() },
+  },
+  beforeMount() {
+    this.validateComponent();
+  },
+  beforeUpdate() {
+    this.validateComponent();
+  },
 };
 </script>
 

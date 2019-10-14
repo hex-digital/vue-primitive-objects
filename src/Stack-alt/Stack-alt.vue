@@ -1,7 +1,7 @@
 <template>
-    <div :class="stackClasses">
-        <slot />
-    </div>
+  <div :class="stackClasses">
+    <slot />
+  </div>
 </template>
 
 <script>
@@ -21,30 +21,30 @@
  * of nested stacks with different spacing.
  */
 export default {
-    name: 'Stack',
-    props: {
-        recursive: { type: Boolean, default: false },
-        space: { type: String, default: '1.5rem' }, // @todo Prob a vertical rhythm value here
+  name: 'Stack',
+  props: {
+    recursive: { type: Boolean, default: false },
+    space: { type: String, default: '1.5rem' }, // @todo Prob a vertical rhythm value here
+  },
+  computed: {
+    stackClasses() {
+      return {
+        'o-stack': true,
+        'o-stack--recursive': this.recursive,
+      };
     },
-    computed: {
-        stackClasses() {
-            return {
-                'o-stack': true,
-                'o-stack--recursive': this.recursive,
-            };
-        },
-    },
+  },
 };
 </script>
 
 <style lang="scss">
 .o-stack {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .o-stack > * + *,
 .o-stack--recursive * + * {
-    margin-top: 1.5rem; // @todo This value should come from the modular spacing scale
+  margin-top: 1.5rem; // @todo This value should come from the modular spacing scale
 }
 </style>

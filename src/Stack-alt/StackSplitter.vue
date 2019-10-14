@@ -1,5 +1,5 @@
 <template>
-    <div class="o-stack-splitter" aria-hidden />
+  <div class="o-stack-splitter" aria-hidden />
 </template>
 
 <script>
@@ -8,12 +8,12 @@
  * See the Stack component for more details on the Stack.
  */
 export default {
-    name: 'StackSplitter',
+  name: 'StackSplitter',
 };
 </script>
 
 <style lang="scss">
 .o-stack-splitter {
-    margin-bottom: auto;
+  margin-bottom: auto;
 }
 </style>
