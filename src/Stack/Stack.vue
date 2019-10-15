@@ -50,6 +50,9 @@ export default {
       if (this.splitAfter === 0) return null;
 
       return `
+        ${selector}${this.recursive ? '' : ' >'} * + * {
+          margin-top: ${this.space};
+        }
         ${selector}:only-child {
           height: 100%;
         }
@@ -63,6 +66,8 @@ export default {
 </script>
 
 <style lang="scss">
+$defaultSpacing: 1.5rem; // @todo This should come from the modular sizing
+
 .o-stack {
   display: flex;
   flex-direction: column;
@@ -71,6 +76,6 @@ export default {
 
 .o-stack > * + *,
 .o-stack--recursive * + * {
-  margin-top: 1.5rem; // @todo This value should come from the modular spacing scale
+  margin-top: $defaultSpacing;
 }
 </style>

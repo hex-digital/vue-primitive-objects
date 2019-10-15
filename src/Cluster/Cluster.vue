@@ -13,7 +13,7 @@ export default {
   props: {
     align: { type: String, default: 'center' },
     justify: { type: String, default: 'center' },
-    space: { type: String, default: null }, // @todo This needs to change to allow spacing size to be set
+    space: { type: String, default: '1.5rem' }, // @todo This needs to change to allow spacing size to be set (from modular sizings)
   },
   computed: {
     configVariables() {
@@ -23,11 +23,14 @@ export default {
   methods: {
     configStyles(selector) {
       return `
-        ${selector}:only-child {
-          height: 100%;
+        ${selector} > * {
+          justify-content: ${this.justify};
+          align-items: ${this.align};
+          margin: calc(${this.space} / 2 * -1);
         }
-        ${selector} > :nth-child(${this.splitAfter}) {
-          margin-bottom: auto;
+
+        ${selector} > * > * {
+          margin: calc(${this.space} / 2);
         }
       `;
     },
@@ -36,21 +39,17 @@ export default {
 </script>
 
 <style lang="scss">
-$spacing: 1.5rem; // @todo This should come from the modular sizing
+$defaultSpacing: 1.5rem; // @todo This should come from the modular sizing
 
 .o-cluster > * {
-  align-items: center; // @todo This needs to change to allow alignment to change
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; // @todo This needs to change to alignment to change
-  margin: calc(
-    #{$spacing} / 2 * -1
-  ); // @todo This needs to change to allow spacing to be changed
+  justify-content: center;
+  margin: calc(#{$defaultSpacing} / 2 * -1);
 }
 
 .o-cluster > * > * {
-  margin: calc(
-    #{$spacing} / 2
-  ); // @todo This needs to change to allow spacing to be changed
+  margin: calc(#{$defaultSpacing} / 2);
 }
 </style>
