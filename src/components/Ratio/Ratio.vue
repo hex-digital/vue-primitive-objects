@@ -11,7 +11,11 @@ export default {
   name: 'Ratio',
   mixins: [validateComponent],
   props: {
-    ratio: { type: String, required: true },
+    ratio: {
+      type: String,
+      required: true,
+      validator: (value) => value.includes(':'),
+    },
   },
   computed: {
     ratioStyles() {
@@ -43,10 +47,12 @@ export default {
 </script>
 
 <style lang="scss">
+$defaultRatio = 6/9;
+
 .o-ratio {
   display: block;
+  padding-bottom: calc(#{$defaultRatio} * 100%);
   position: relative;
-  padding-bottom: calc(6 / 9 * 100%);
 }
 
 .o-ratio > * {
