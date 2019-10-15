@@ -1,5 +1,5 @@
 <template>
-  <div :class="contentClasses">
+  <div :class="contentClasses" :style="contentStyles">
     <slot />
   </div>
 </template>
@@ -9,17 +9,23 @@ export default {
   name: 'Content',
   props: {
     centerText: { type: Boolean, default: false },
-    gutters: { type: Boolean, default: false }, // @todo This needs to change to allow gutter size to be set
+    gutters: { type: String, default: '0' },
     intrinsic: { type: Boolean, default: false },
-    maxWidth: { type: String, default: '60ch' }, // @todo This needs to change to allow max width to be set
+    maxWidth: { type: String, default: '60ch' },
   },
   computed: {
     contentClasses() {
       return {
         'o-content': true,
-        'o-content--gutters': this.gutters,
         'o-content--center-text': this.centerText,
         'o-content--intrinsic': this.intrinsic,
+      };
+    },
+    contentStyles() {
+      return {
+        paddingLeft: this.gutters,
+        paddingRight: this.gutters,
+        maxWidth: this.maxWidth,
       };
     },
   },
@@ -27,20 +33,14 @@ export default {
 </script>
 
 <style lang="scss">
-$measure: 60ch;
-$gutters: 1rem; // This should come from our modular sizing system
+$defaultMeasure: 60ch;
 
 .o-content {
   box-sizing: content-box;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  max-width: $measure;
-}
-
-.o-content--gutters {
-  padding-left: $gutters;
-  padding-right: $gutters;
+  max-width: $defaultMeasure;
 }
 
 .o-content--center-text {
