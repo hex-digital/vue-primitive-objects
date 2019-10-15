@@ -1,5 +1,5 @@
 <template>
-  <div :class="coverClasses">
+  <div :class="coverClasses" :style="coverStyles">
     <slot name="header" />
     <slot />
     <slot name="footer" />
@@ -7,9 +7,13 @@
 </template>
 
 <script>
-// Consider using a render function and adding classes dynamically instead of the template
 export default {
   name: 'Cover',
+  props: {
+    minHeight: { type: String, default: '100vh' },
+    noPad: { type: Boolean, default: false },
+    space: { type: String, default: '1.5rem' }, // @todo This should come from the modular sizings
+  },
   computed: {
     coverClasses() {
       return {
@@ -18,18 +22,25 @@ export default {
         'o-cover--footer': this.$slots.footer,
       };
     },
+    coverStyles() {
+      return {
+        minHeight: this.minHeight,
+        padding: this.noPad ? '0' : this.space,
+      };
+    },
   },
 };
 </script>
 
 <style lang="scss">
-$space = 1.5rem;
+$defaultSpacing = 1.5rem; // @todo This should come from the modular sizings
+$defaultMinHeight: 100vh;
 
 .o-cover {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    padding: 1.5rem; // @todo This should come from the modular sizings
+    min-height: $defaultMinHeight;
+    padding: $defaultSpacing;
 }
 
 .o-cover > * {
@@ -38,12 +49,12 @@ $space = 1.5rem;
 }
 
 .o-cover--header > :first-child {
-    margin-bottom: $space;
+    margin-bottom: $defaultSpacing;
     margin-top: 0;
 }
 
 .o-cover--footer > :last-child {
     margin-bottom: 0;
-    margin-top: $space;
+    margin-top: $defaultSpacing;
 }
 </style>
