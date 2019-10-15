@@ -1,19 +1,21 @@
 <template>
-  <div :class="sideContentClasses">
+  <div :class="sideContentClasses" :data-identifier="this.configIdentifier">
     <slot />
   </div>
 </template>
 
 <script>
+import { stylesFromComponentConfig } from '../../mixins/stylesFromComponentConfig';
 import { validateComponent } from '../../mixins/validateComponent';
 
 export default {
   name: 'SideContent',
+  mixins: [stylesFromComponentConfig, validateComponent],
   props: {
     side: { type: String, default: 'left' },
-    sideWidth: { type: String, default: null }, // @todo This needs to be implemeneted
-    contentMin: { type: String, default: '50%' }, // @todo This needs to be implemeneted
-    space: { type: String, default: '1.5rem' }, // @todo This needs to be implemented
+    sideWidth: { type: String, default: null },
+    contentMin: { type: String, default: '50%' },
+    space: { type: String, default: '1.5rem' },
     noStretch: { type: Boolean, default: false },
   },
   computed: {
@@ -21,15 +23,36 @@ export default {
       return {
         'o-side-content': true,
         'o-side-content--no-stretch': this.noStretch,
-        'o-side-content--left': this.side === 'left',
-        'o-side-content--right': this.side !== 'left',
       };
     },
     adjustedSpace() {
-      return this.space === '0' ? '0px' : this.space;
+      return this.space === '0' ? '0px' : this.space; // '0' doesn't work in calc, so must be 0px
+    },
+    configVariables() {
+      return `${this.adjustedSpace}${this.side}${this.sideWidth}${this.contentMin}`;
     },
   },
   methods: {
+    configStyles(selector) {
+      const side = this.side === 'left' ? `:last-child` : `:first-child`;
+
+      return `
+        ${selector} > * {
+          margin: calc(${this.adjustedSpace} / 2 * -1);
+        }
+
+        ${selector} > * > * {
+          margin: calc(${this.adjustedSpace} / 2);
+          ${this.sideWidth ? `flex-basis: ${this.sideWidth};` : ''}
+        }
+
+        ${selector} > * > ${side} {
+          flex-basis: 0;
+          flex-grow: 999;
+          min-width: calc(${this.contentMin} - ${this.adjustedSpace});
+        }
+      `;
+    },
     validateComponent() {
       const slotIsValid = true; // @todo Check that the slot contains one element, and that it has exactly two elements as direct children
       const contentMinIsPercentage = this.contentMin.includes('%');
@@ -50,27 +73,20 @@ export default {
 </script>
 
 <style lang="scss">
-$space = 1.5rem; // @todo This should come from the modular sizings
+$defaultSpacing = 1.5rem; // @todo This should come from the modular sizings
 
 .o-side-content > * {
   display: flex;
   flex-wrap: wrap;
-  margin: calc(#{$space} / 2 * -1); // @todo This needs to change so it can take a dynamic space
+  margin: calc(#{$defaultSpacing} / 2 * -1);
 }
 
 .o-side-content > * > * {
   flex-grow: 1;
-  margin: calc(#{$space} / 2); // @todo This needs to change so it can take a dynamic space
+  margin: calc(#{$defaultSpacing} / 2);
 }
 
 .o-side-content--no-stretch > * {
   align-items: flex-start;
-}
-
-.o-side-content--left > * > :first-child,
-.o-side-content--right > * > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-width: calc(50% - #{$space}); // @todo This needs to change so it can take a dynamic min-width
 }
 </style>
