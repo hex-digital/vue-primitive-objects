@@ -1,5 +1,5 @@
 <template>
-  <div class="o-cluster">
+  <div class="o-cluster" :data-identifier="configIdentifier">
     <slot />
   </div>
 </template>
