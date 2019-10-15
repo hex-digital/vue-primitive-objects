@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { stylesFromComponentConfig } from '../mixins/stylesFromComponentConfig';
+import { stylesFromComponentConfig } from '../../mixins/stylesFromComponentConfig';
 
 export default {
   name: 'Cluster',

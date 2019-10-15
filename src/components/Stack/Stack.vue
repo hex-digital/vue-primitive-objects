@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { stylesFromComponentConfig } from '../mixins/stylesFromComponentConfig';
+import { stylesFromComponentConfig } from '../../mixins/stylesFromComponentConfig';
 
 /**
  * Flow elements require space to physically and conceptually separate them from the elements that come before and

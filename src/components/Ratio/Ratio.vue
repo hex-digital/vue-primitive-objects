@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { validateComponent } from '../mixins/validateComponent';
+import { validateComponent } from '../../mixins/validateComponent';
 
 export default {
   name: 'Ratio',
