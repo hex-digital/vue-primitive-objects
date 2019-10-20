@@ -42,7 +42,7 @@ export default {
       };
     },
     configVariables() {
-      return `${this.splitAfter}`;
+      return `${this.splitAfter}${this.recursive}${this.space}`;
     },
   },
   methods: {
