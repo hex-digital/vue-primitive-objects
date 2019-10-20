@@ -33,12 +33,14 @@ export default {
       default: 0,
       validator: (value) => value >= 0 && Number.isInteger(value),
     },
+    noStrip: { type: Boolean, default: false },
   },
   computed: {
     stackClasses() {
       return {
         'o-stack': true,
         'o-stack--recursive': this.recursive,
+        'o-stack--strip': !this.noStrip,
       };
     },
     configVariables() {
@@ -47,8 +49,6 @@ export default {
   },
   methods: {
     configStyles(selector) {
-      if (this.splitAfter === 0) return null;
-
       return `
         ${selector}${this.recursive ? '' : ' >'} * + * {
           margin-top: ${this.space};
@@ -56,8 +56,12 @@ export default {
         ${selector}:only-child {
           height: 100%;
         }
-        ${selector} > :nth-child(${this.splitAfter}) {
-          margin-bottom: auto;
+        ${
+          this.splitAfter === 0
+            ? ''
+            : `${selector} > :nth-child(${this.splitAfter}) {
+              margin-bottom: auto;
+            }`
         }
       `;
     },
@@ -77,5 +81,10 @@ $defaultSpacing: 1.5rem; // @todo This should come from the modular sizing
 .o-stack > * + *,
 .o-stack--recursive * + * {
   margin-top: $defaultSpacing;
+}
+
+.o-stack--strip > *,
+.o-stack--recursive.o-stack--strip * {
+  margin-bottom: 0;
 }
 </style>
