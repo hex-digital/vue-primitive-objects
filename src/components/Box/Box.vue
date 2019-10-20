@@ -23,8 +23,8 @@ export default {
 </script>
 
 <style lang="scss">
-$defaultBorderWidth = 1px; // @todo This should maybe be from a map of project border sizings
-$defaultPadding = 1.5rem; // @todo This should be a modular sizing
+$defaultBorderWidth: 1px; // @todo This should maybe be from a map of project border sizings
+$defaultPadding: 1.5rem; // @todo This should be a modular sizing
 
 .o-box {
   background-color: inherit;

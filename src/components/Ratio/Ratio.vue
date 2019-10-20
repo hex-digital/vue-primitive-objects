@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="scss">
-$defaultRatio = 6/9;
+$defaultRatio: 6/9;
 
 .o-ratio {
   display: block;
